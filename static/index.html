@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Downloader</title>
+    <style>
+        ul li{
+            background-color: rgb(41, 190, 235); 
+            width: 500px;
+            height: 20px; 
+            padding: 10px;
+            margin: 2px;
+            list-style: none;
+            text-align: center;
+        }
+        a{
+            text-decoration: none;
+            
+        }
+    </style>
+</head>
+<body style="background-color: rgb(105, 243, 243);">
+    <h1>File Downloader</h1>
+    <p>Click on below files to download them.</p>
+    <ul id="fileList"  ></ul>
+
+    <script>
+        const fileList = document.getElementById("fileList");
+
+        // Fetch the file names from the server
+        fetch("http://192.168.1.146:8000/files")
+            .then(response => response.json())
+            .then(data => {
+                const files = data.files;
+                files.forEach(file => {
+                    const listItem = document.createElement("li");
+                    const link = document.createElement("a");
+                    link.href = `/file/${file}`;
+                    link.download = file;
+                    link.textContent = file;
+                    listItem.appendChild(link);
+                    fileList.appendChild(listItem);
+                });
+            });
+    </script>
+</body>
+</html>
